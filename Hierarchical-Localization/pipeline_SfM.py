@@ -18,7 +18,7 @@ from hloc import extract_features, match_features, reconstruction, visualization
 # In[ ]:
 
 
-images = Path('datasets/Plant/images/')
+images = Path('datasets\Plant_less_images\images')
 
 outputs = Path('outputs/sfm/')
 sfm_pairs = outputs / 'pairs-netvlad.txt'
@@ -65,7 +65,7 @@ match_path = match_features.main(matcher_conf, sfm_pairs, feature_conf['output']
 # In[ ]:
 
 
-#model = reconstruction.main(sfm_dir, images, sfm_pairs, feature_path, match_path)
+model = reconstruction.main(sfm_dir, images, sfm_pairs, feature_path, match_path)
 
 
 # ## Visualization
