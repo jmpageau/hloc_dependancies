@@ -4,8 +4,8 @@
 # In[1]:
 
 
-get_ipython().run_line_magic('load_ext', 'autoreload')
-get_ipython().run_line_magic('autoreload', '2')
+#get_ipython().run_line_magic('load_ext', 'autoreload')
+#get_ipython().run_line_magic('autoreload', '2')
 
 from pathlib import Path
 
@@ -18,7 +18,7 @@ from hloc import extract_features, match_features, reconstruction, visualization
 # In[ ]:
 
 
-images = Path('datasets/South-Building/images/')
+images = Path('datasets/Plant/images/')
 
 outputs = Path('outputs/sfm/')
 sfm_pairs = outputs / 'pairs-netvlad.txt'
@@ -35,9 +35,9 @@ matcher_conf = match_features.confs['superglue']
 # In[ ]:
 
 
-if not images.exists():
-    get_ipython().system('wget http://cvg.ethz.ch/research/local-feature-evaluation/South-Building.zip -P datasets/')
-    get_ipython().system('unzip -q datasets/South-Building.zip -d datasets/')
+#if not images.exists():
+#    get_ipython().system('wget http://cvg.ethz.ch/research/local-feature-evaluation/South-Building.zip -P datasets/')
+#    get_ipython().system('unzip -q datasets/South-Building.zip -d datasets/')
 
 
 # ## Find image pairs via image retrieval
@@ -65,7 +65,7 @@ match_path = match_features.main(matcher_conf, sfm_pairs, feature_conf['output']
 # In[ ]:
 
 
-model = reconstruction.main(sfm_dir, images, sfm_pairs, feature_path, match_path)
+#model = reconstruction.main(sfm_dir, images, sfm_pairs, feature_path, match_path)
 
 
 # ## Visualization
@@ -74,17 +74,17 @@ model = reconstruction.main(sfm_dir, images, sfm_pairs, feature_path, match_path
 # In[ ]:
 
 
-visualization.visualize_sfm_2d(model, images, color_by='visibility', n=5)
+#visualization.visualize_sfm_2d(model, images, color_by='visibility', n=5)
 
 
 # In[ ]:
 
 
-visualization.visualize_sfm_2d(model, images, color_by='track_length', n=5)
+#visualization.visualize_sfm_2d(model, images, color_by='track_length', n=5)
 
 
 # In[ ]:
 
 
-visualization.visualize_sfm_2d(model, images, color_by='depth', n=5)
+#visualization.visualize_sfm_2d(model, images, color_by='depth', n=5)
 
