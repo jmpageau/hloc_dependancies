@@ -37,6 +37,19 @@ confs = {
             'resize_max': 1024,
         },
     },
+    'loftr': {
+        'output': 'feats-loftr-n4096-rmax1600',
+        'model': {
+            'name': 'loftr',
+            'nms_radius': 3,
+            'max_keypoints': 4096,
+        },
+        'preprocessing': {
+            'grayscale': True,
+            'resize_max': 1600,
+            'resize_force': True,
+        },
+    },
     # Resize images to 1600px even if they are originally smaller.
     # Improves the keypoint localization if the images are of good quality.
     'superpoint_max': {

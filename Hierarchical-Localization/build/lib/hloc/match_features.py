@@ -65,6 +65,12 @@ confs = {
         'model': {
             'name': 'adalam'
         },
+    },
+    'loftr': {
+        'output': 'matches-loftr',
+        'model': {
+            'name': 'loftr'
+        },
     }
 }
 
