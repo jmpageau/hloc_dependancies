@@ -9,7 +9,7 @@
 
 from pathlib import Path
 
-from hloc import extract_features, match_features, reconstruction, visualization, pairs_from_retrieval
+from hloc import extract_features, match_features, reconstruction, visualization, pairs_from_retrieval, match_dense
 
 
 # ## Setup
@@ -28,63 +28,22 @@ retrieval_conf = extract_features.confs['netvlad']
 feature_conf = extract_features.confs['superpoint_aachen']
 matcher_conf = match_features.confs['superglue']
 
-
-# ## Download the dataset
-# The dataset is simply a set of images. The intrinsic parameters will be extracted from the EXIF data and refined with SfM.
-
-# In[ ]:
-
-
-#if not images.exists():
-#    get_ipython().system('wget http://cvg.ethz.ch/research/local-feature-evaluation/South-Building.zip -P datasets/')
-#    get_ipython().system('unzip -q datasets/South-Building.zip -d datasets/')
-
-
-# ## Find image pairs via image retrieval
-# We extract global descriptors with NetVLAD and find for each image the most similar ones. For smaller dataset we can instead use exhaustive matching via `hloc/pairs_from_exhaustive.py`, which would find $\frac{n(n-1)}{2}$ images pairs.
-
-# In[ ]:
-
-
 retrieval_path = extract_features.main(retrieval_conf, images, outputs)
 pairs_from_retrieval.main(retrieval_path, sfm_pairs, num_matched=5)
-
-
-# ## Extract and match local features
-
-# In[ ]:
-
-
 feature_path = extract_features.main(feature_conf, images, outputs)
 match_path = match_features.main(matcher_conf, sfm_pairs, feature_conf['output'], outputs)
-
-
-# ## 3D reconstruction
-# Run COLMAP on the features and matches.
-
-# In[ ]:
-
-
 model = reconstruction.main(sfm_dir, images, sfm_pairs, feature_path, match_path)
 
+#LOFRT
+#dense_conf = match_dense.confs['loftr']
+#features, matches = match_dense.main(dense_conf, sfm_pairs, images, export_dir=outputs)
 
-# ## Visualization
-# We visualize some of the registered images, and color their keypoint by visibility, track length, or triangulated depth.
+#Use SuperPoint keypoints as anchors:
+#features_sp = extract_features.main(feature_conf, images)
+#features, matches = match_dense.main(dense_conf, sfm_pairs, images,
+#                          export_dir=outputs,
+#                          features_ref=features_sp)
 
-# In[ ]:
-
-
-#visualization.visualize_sfm_2d(model, images, color_by='visibility', n=5)
-
-
-# In[ ]:
-
-
-#visualization.visualize_sfm_2d(model, images, color_by='track_length', n=5)
-
-
-# In[ ]:
-
-
-#visualization.visualize_sfm_2d(model, images, color_by='depth', n=5)
-
+# Localization:
+#loc_features, loc_matches = match_dense.main(matcher_conf, loc_pairs,
+#      images, export_dir=outputs, features_ref=features, max_kps=None)
